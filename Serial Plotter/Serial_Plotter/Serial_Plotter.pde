@@ -69,22 +69,49 @@ import processing.serial.*;
   void serialEvent (Serial myPort) {
     // get the ASCII string:
     String inString = myPort.readStringUntil('\n');
-    String inStringx, inStringy, inStringz;
+    String[] inString_dim = new String[3];
+    inString_dim[0] = "";
+    inString_dim[1] = "";
+    inString_dim[2] = "";
     
+    //String inString_dim[3];
+    int k=0;
+    char temp_char;
+    
+    // String will come in a format: nnxnnxnn where the number can be either 1 n or 2 n. 
     if (inString != null) {
       // trim off any whitespace:
       inString = trim(inString);
-      inStringx = inString.substring(0, 2);
-//      print(inStringx);
-      inStringy = inString.substring(2, 4);
-      inStringz = inString.substring(4, 6);
       
-      inBytex = float(inStringx); // convert to an int and map to the screen height
-      inBytey = float(inStringy);
-      inBytez = float(inStringz);
+      // probably a better way of doing this but create a char array of the string
+      for(int i = 0; i < inString.length(); i++)
+      {
+        temp_char = inString.charAt(i);
+        if(temp_char == 'x')
+        {
+          k++;
+        }
+        else
+        {
+          inString_dim[k] += temp_char;
+        }
+      }
+      //print(inString_dim[0]);
+      //print(" ");
+      //print(inString_dim[1]);
+      //print(" ");
+      //println(inString_dim[2]);
+      
+      inBytex = float(inString_dim[0]); // convert to an int and map to the screen height
+      inBytey = float(inString_dim[1]);
+      inBytez = float(inString_dim[2]);
+      //print(inString);
+      //print(" ");
       //print(inBytex);
+      //print(" ");
       //print(inBytey);
-      //print(inBytez);
+      //print(" ");
+      //println(inBytez);
       inBytex = map(inBytex, -100, 100, 0, height);
       inBytey = map(inBytey, -100, 100, 0, height);
       inBytez = map(inBytez, -100, 100, 0, height);
